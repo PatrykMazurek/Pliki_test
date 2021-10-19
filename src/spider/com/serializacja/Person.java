@@ -1,4 +1,4 @@
-package spider.com;
+package spider.com.serializacja;
 
 import java.io.Serializable;
 
