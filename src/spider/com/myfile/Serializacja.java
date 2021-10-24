@@ -1,4 +1,4 @@
-package spider.com.serializacja;
+package spider.com.myfile;
 
 import java.io.*;
 import java.util.ArrayList;
