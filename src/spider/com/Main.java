@@ -1,6 +1,8 @@
 package spider.com;
 
 import spider.com.myfile.Person;
+import spider.com.thread.main.StartCallable;
+import spider.com.thread.main.StartRunnable;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -9,8 +11,12 @@ import java.util.List;
 
 public class Main {
 
+    public static List<Integer> numberList;
+
     public static void main(String[] args) {
         // write your code here
+
+        numberList = new ArrayList<>();
 
         List<Person> personList = new ArrayList<>();
 
@@ -54,12 +60,14 @@ public class Main {
                 System.out.println(Thread.currentThread().getName());
             }
         });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        t.start();
+//        try {
+//            t.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        StartRunnable st = new StartRunnable();
+        new StartCallable();
         System.out.println("Wiadomość z głównego wątka");
 
 
