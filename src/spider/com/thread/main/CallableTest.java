@@ -13,7 +13,6 @@ public class CallableTest implements Callable<Integer> {
         this.taskNr = nr;
     }
 
-
     @Override
     public Integer call() throws Exception {
 
@@ -27,7 +26,6 @@ public class CallableTest implements Callable<Integer> {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return number;
     }
 }

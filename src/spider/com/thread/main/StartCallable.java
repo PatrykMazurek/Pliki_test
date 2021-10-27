@@ -58,6 +58,7 @@ public class StartCallable {
         }
         // zakończenie pracy z wątkami
         service.shutdown();
+        // wyświtlanie informacji o wontkach 
 //        System.out.println(threadExecutor.getActiveCount());
 //        System.out.println(threadExecutor.getMaximumPoolSize());
 //        System.out.println(threadExecutor.getCorePoolSize());
