@@ -3,6 +3,7 @@ package spider.com;
 import spider.com.myfile.Person;
 import spider.com.thread.main.StartCallable;
 import spider.com.thread.main.StartRunnable;
+import spider.com.thread.main.StartThread;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -67,7 +68,8 @@ public class Main {
 //            e.printStackTrace();
 //        }
 //        StartRunnable st = new StartRunnable();
-        new StartCallable();
+//        new StartCallable();
+        new StartThread();
         System.out.println("Wiadomość z głównego wątka");
 
 
