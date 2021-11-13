@@ -1,6 +1,8 @@
 package spider.com;
 
 import spider.com.myfile.Person;
+import spider.com.server.Client;
+import spider.com.server.Server;
 import spider.com.thread.main.StartCallable;
 import spider.com.thread.main.StartRunnable;
 import spider.com.thread.main.StartThread;
@@ -69,8 +71,12 @@ public class Main {
 //        }
 //        StartRunnable st = new StartRunnable();
 //        new StartCallable();
-        new StartThread();
-        System.out.println("Wiadomość z głównego wątka");
+//        new StartThread();
+//        System.out.println("Wiadomość z głównego wątka");
+
+//        Client c = new Client(9811, "10.0.50.x"); // łączenie z aplikacją serwerową
+
+        Server server = new Server(9811);
 
 
 //        System.out.println(f.getAbsolutePath());
