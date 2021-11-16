@@ -27,15 +27,35 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
+
+        boolean work = true;
+        String reader;
         String message = " Wybierz opcję: \n" +
                 "1) cok 1\n" +
                 "2) cok 2\n" +
                 "e) zakończ";
 
-        chOut.println(message);
         try {
-            String reader = chIn.readLine();
-            System.out.println(reader);
+            while(work){
+                chOut.println(message);
+                reader = chIn.readLine();
+//                System.out.println(reader);
+                switch (reader){
+                    case "1":
+                        chOut.println("wiadomość 1");
+                        break;
+                    case "2":
+                        chOut.println("wiadomość 2");
+                        break;
+                    case "e":
+                        chOut.println("zakończenie");
+                        work = false;
+                        break;
+                    default:
+                        chOut.println("Nie podano poprawnej opcji");
+                        break;
+                }
+            }
             stopConnection();
         } catch (IOException e) {
             e.printStackTrace();
