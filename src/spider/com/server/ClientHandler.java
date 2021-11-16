@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler extends Thread {
 
     private Socket socket;
     private PrintWriter chOut;
@@ -17,8 +17,8 @@ public class ClientHandler implements Runnable {
         System.out.println("Połączono z adresem " + socket.getInetAddress());
 
         try {
-            chOut = new PrintWriter(socket.getOutputStream());
-            chIn = new BufferedReader(new InputStreamReader( socket.getInputStream()));
+            chOut = new PrintWriter(socket.getOutputStream(), true);
+            chIn = new BufferedReader(new InputStreamReader( socket.getInputStream(),"UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,13 +38,16 @@ public class ClientHandler implements Runnable {
         try {
             while(work){
                 chOut.println(message);
+                chOut.println("");
                 reader = chIn.readLine();
 //                System.out.println(reader);
                 switch (reader){
                     case "1":
                         chOut.println("wiadomość 1");
+
                         break;
                     case "2":
+
                         chOut.println("wiadomość 2");
                         break;
                     case "e":

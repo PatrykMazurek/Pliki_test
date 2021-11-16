@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
-public class WriterThread implements Runnable {
+public class WriterThread extends Thread {
 
-    private PrintWriter writer;
+    private PrintWriter cOut;
     private Socket socket;
     private ChatClient client;
 
@@ -17,7 +18,7 @@ public class WriterThread implements Runnable {
 
         try{
             OutputStream out = socket.getOutputStream();
-            writer = new PrintWriter(out, true);
+            cOut = new PrintWriter(out, true);
         } catch (IOException e) {
             System.out.println("Błąd podczas pobierania obiektu OutputStream " + e.getMessage());
             e.printStackTrace();
@@ -30,7 +31,22 @@ public class WriterThread implements Runnable {
     }
 
     public void sendMessage(){
+        String user;
+        Scanner scan = new Scanner(System.in);
 
+        do{
+            System.out.println("Podaj nazwę użytkownika ");
+            user = scan.nextLine();
+        }while (user.isEmpty());
+        client.setUserName(user);
+        cOut.println(user);
+        String message;
+        do{
+            message = scan.nextLine();
+            cOut.println(message);
+        }while (!message.equals("exit"));
+        cOut.close();
+        stopWriter();
     }
 
     public void stopWriter(){

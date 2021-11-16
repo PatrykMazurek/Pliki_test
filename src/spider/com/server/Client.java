@@ -33,16 +33,15 @@ public class Client {
 
         // polączenie z serwerem oraz wymiana treści
         try {
-            PrintWriter cOut = new PrintWriter(socket.getOutputStream());
+            PrintWriter cOut = new PrintWriter(socket.getOutputStream(),true);
             BufferedReader cIn = new BufferedReader(new InputStreamReader( socket.getInputStream()));
-
+            Scanner scan = new Scanner(System.in);
+            String reader;
             while( true ){
-                String reader;
                 do{
                     reader = cIn.readLine();
                     System.out.println(reader);
                 }while (!reader.isEmpty());
-                Scanner scan = new Scanner(System.in);
                 String line = scan.nextLine();
                 if(line.equals("e")){
                     cOut.println(line);
@@ -54,8 +53,6 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void stopConnection(){

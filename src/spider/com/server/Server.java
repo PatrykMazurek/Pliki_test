@@ -16,7 +16,10 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
             while (true){
-                new ClientHandler(serverSocket.accept()).run();
+                System.out.println("Oczekuje na połączenie...");
+//                socket = serverSocket.accept();
+                new ClientHandler(serverSocket.accept()).start();
+                System.out.println("połączono z użytkownikiem ");
             }
         } catch (IOException e) {
             e.printStackTrace();

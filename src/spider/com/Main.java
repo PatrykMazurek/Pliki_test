@@ -1,6 +1,8 @@
 package spider.com;
 
 import spider.com.myfile.Person;
+import spider.com.server.ChatClient;
+import spider.com.server.ChatServer;
 import spider.com.server.Client;
 import spider.com.server.Server;
 import spider.com.thread.main.StartCallable;
@@ -60,7 +62,16 @@ public class Main {
 
 //        Client c = new Client(9811, "10.0.50.x"); // łączenie z aplikacją serwerową
 
-        Server server = new Server(9811);
+//        Server server = new Server(9811);
+//        ChatServer chatServer = new ChatServer(9811);
+//        chatServer.startServer();
 
+        ChatClient chatClient = new ChatClient("10.55.0.41", 9811);
+
+
+//        Client c = new Client(9811, "10.55.0.41");
+//        c.startConnection();
+//        c.talkToServer();
+//        c.stopConnection();
     }
 }

@@ -6,9 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ReadThread implements Runnable {
+public class ReadThread extends Thread {
 
-    private BufferedReader buffor;
+    private BufferedReader cIn;
     private Socket socket;
     private ChatClient client;
 
@@ -18,7 +18,7 @@ public class ReadThread implements Runnable {
 
         try{
             InputStream in = socket.getInputStream();
-            buffor = new BufferedReader(new InputStreamReader(in, "UTf-8"));
+            cIn = new BufferedReader(new InputStreamReader(in, "UTf-8"));
 
         } catch (IOException e) {
             System.out.println("błąd podczas pobierania obiektu InputStream " + e.getMessage());
@@ -32,7 +32,16 @@ public class ReadThread implements Runnable {
     }
 
     public void readMessage(){
-
+        String line;
+        try{
+            do{
+                line = cIn.readLine();
+                System.out.println(line);
+            }while(true);
+        } catch (IOException e) {
+            System.err.println("Zakończenie pracy");
+//            e.printStackTrace();
+        }
     }
 
     public void stopReader(){
