@@ -1,17 +1,11 @@
 package spider.com;
 
-import spider.com.myfile.Person;
-import spider.com.server.ChatClient;
-import spider.com.server.ChatServer;
+import spider.com.chatserver.ChatClient;
 import spider.com.server.Client;
 import spider.com.server.Server;
-import spider.com.thread.main.StartCallable;
-import spider.com.thread.main.StartRunnable;
-import spider.com.thread.main.StartThread;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -60,13 +54,13 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-//        Client c = new Client(9811, "10.0.50.x"); // łączenie z aplikacją serwerową
+//        Client c = new Client(9811, "10.0.50.89"); // łączenie z aplikacją serwerową
 
 //        Server server = new Server(9811);
 //        ChatServer chatServer = new ChatServer(9811);
 //        chatServer.startServer();
 
-        ChatClient chatClient = new ChatClient("10.55.0.41", 9811);
+//        ChatClient chatClient = new ChatClient("10.55.0.41", 9811);
 
 
 //        Client c = new Client(9811, "10.55.0.41");

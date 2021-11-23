@@ -1,4 +1,6 @@
-package spider.com.server;
+package spider.com.chatserver;
+
+import spider.com.chatserver.ChatServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

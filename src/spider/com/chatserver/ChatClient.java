@@ -1,4 +1,4 @@
-package spider.com.server;
+package spider.com.chatserver;
 
 import java.io.IOException;
 import java.net.Socket;
