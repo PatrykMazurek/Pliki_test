@@ -46,17 +46,36 @@ public class FileClient {
                 dataOutputStream.writeChar(decision[0]);
 
                 switch (decision[0]){
-
+                    case '1':
+                        uploadFileToServer();
+                        break;
+                    case '2':
+                        System.out.println("-----");
+                        downloadFileFromServer();
+                        break;
+                    case 'e':
+                        work = false;
+                        break;
+                    default:
+                        System.out.println("nie wybrano opcji ");
+                        break;
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
-    public void stopConnection() {}
+    public void stopConnection() {
+        if (socket.isConnected()){
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void uploadFileToServer(){
         File[] listFile = Path.of(defaultLocation).toFile().listFiles();
@@ -69,8 +88,6 @@ public class FileClient {
 
         try {
             byte[] fileNameByte = fileToSend.getName().getBytes("UTF-8");
-
-
             long filelength = fileToSend.length();
             byte[] fileContentByte = new byte[(int) filelength];
             FileInputStream fileIn = new FileInputStream(fileToSend);
@@ -95,7 +112,9 @@ public class FileClient {
 
     public void downloadFileFromServer(){
         try{
+            System.out.println("oczekuje");
             int messageSize = dataInputStream.readInt();
+            System.out.println(" długość wiadomości " + messageSize);
             byte[] messageBytes = new byte[messageSize];
             dataInputStream.readFully(messageBytes, 0 , messageSize);
 
@@ -108,6 +127,21 @@ public class FileClient {
             int fileNameSize = dataInputStream.readInt();
             if(fileNameSize > 0 ){
                 // odbieram nazwę pliku
+                byte[] fileNameByte = new byte[fileNameSize];
+                dataInputStream.readFully(fileNameByte, 0, fileNameSize);
+                String fileName = new String(fileNameByte, "UTf-8");
+
+                long fileContentSize = dataInputStream.readLong();
+                if( fileContentSize > 0){
+                    byte[] fileContentBytes = new byte[(int) fileContentSize];
+                    dataInputStream.readFully(fileContentBytes, 0, (int)fileContentSize);
+
+                    FileOutputStream fileOut = new FileOutputStream(
+                            new File( defaultLocation + fileName ));
+                    fileOut.write(fileContentBytes);
+                    fileOut.flush();
+                    fileOut.close();
+                }
             }else{
                 System.out.println("Serwer nie przkazał pliku");
             }
