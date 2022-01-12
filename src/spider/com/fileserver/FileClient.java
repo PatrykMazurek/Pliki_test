@@ -16,11 +16,12 @@ public class FileClient {
 
     public FileClient(String host, int port){
         try{
+            System.out.println("Nawiązywanie połączenia z hostem " + host);
             socket = new Socket(host, port);
             scan = new Scanner(System.in);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            defaultLocation = "C:\\Projekty\\test\\";
+            defaultLocation = "C:\\Projekty\\client\\";
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -48,10 +49,12 @@ public class FileClient {
                 switch (decision[0]){
                     case '1':
                         uploadFileToServer();
+                        System.out.println("Powrót do metody głównej u klienta");
                         break;
                     case '2':
                         System.out.println("-----");
                         downloadFileFromServer();
+                        System.out.println("Powrót do metody głównej u klienta");
                         break;
                     case 'e':
                         work = false;
@@ -60,7 +63,6 @@ public class FileClient {
                         System.out.println("nie wybrano opcji ");
                         break;
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -85,7 +87,7 @@ public class FileClient {
         }
         int fileIndex = scan.nextInt();
         File fileToSend = listFile[fileIndex];
-
+        System.out.println("zaczynam przekazywać pliki");
         try {
             byte[] fileNameByte = fileToSend.getName().getBytes("UTF-8");
             long filelength = fileToSend.length();
@@ -99,22 +101,21 @@ public class FileClient {
             // wysyłanie zawartości pliku
             dataOutputStream.writeLong(filelength);
             dataOutputStream.write(fileContentByte);
-
             fileIn.close();
-
+            dataOutputStream.flush();
+            System.out.println("zakończyłem przekazywać plik");
         } catch (UnsupportedEncodingException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println("Koniec przekazywani pliki");
     }
 
     public void downloadFileFromServer(){
         try{
-            System.out.println("oczekuje");
+
             int messageSize = dataInputStream.readInt();
-            System.out.println(" długość wiadomości " + messageSize);
             byte[] messageBytes = new byte[messageSize];
             dataInputStream.readFully(messageBytes, 0 , messageSize);
 
@@ -141,6 +142,7 @@ public class FileClient {
                     fileOut.write(fileContentBytes);
                     fileOut.flush();
                     fileOut.close();
+                    System.out.println("Zakończenie pobierania pliku z serwera");
                 }
             }else{
                 System.out.println("Serwer nie przkazał pliku");

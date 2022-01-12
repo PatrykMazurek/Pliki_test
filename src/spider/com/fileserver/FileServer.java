@@ -20,14 +20,15 @@ public class FileServer {
             this.socket = s;
             dataInputStream = new DataInputStream (this.socket.getInputStream());
             dataOutputStream = new DataOutputStream( this.socket.getOutputStream());
-            defaultLocation = "C:\\Projekty\\test\\";
+            defaultLocation = "C:\\Projekty\\server\\";
 
             boolean work = true;
-            String message = "1) prześlij plik\n" +
-                    "2) pobierz plik \n" +
-                    "e) zakończ program";
+
             while(work){
-                int messageSize = message.length();
+                String message = "1) prześlij plik\n" +
+                        "2) pobierz plik \n" +
+                        "e) zakończ program";
+                int messageSize = message.getBytes(StandardCharsets.UTF_8).length;
                 byte[] messageByte = message.getBytes(StandardCharsets.UTF_8);
                 dataOutputStream.writeInt(messageSize);
                 dataOutputStream.write(messageByte);
@@ -37,9 +38,11 @@ public class FileServer {
                 switch (decision){
                     case '1':
                         downloadFileFromClient();
+                        System.out.println("Powrót do programu głównego server");
                         break;
                     case '2':
                         sendFileToClient();
+                        System.out.println("Powrót do programu głównego server");
                         break;
                     case 'e':
                         work = false;
@@ -74,10 +77,9 @@ public class FileServer {
         }
 
         try {
-            System.out.println(message.length() + " " + message);
-            System.out.println("przesyłam informację do klienta");
+
             byte[] messageBytes = message.getBytes("UTF-8");
-            dataOutputStream.writeInt(message.length());
+            dataOutputStream.writeInt(messageBytes.length);
             dataOutputStream.write(messageBytes);
 
             int fileId = dataInputStream.readInt();
@@ -97,7 +99,7 @@ public class FileServer {
             dataOutputStream.write(fileContentByte);
 
             fileIn.close();
-
+            System.out.println("Zakończemie przekazywania pliku do klienta");
         } catch (UnsupportedEncodingException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -117,14 +119,15 @@ public class FileServer {
 
 //            int decision = scan.nextInt();
 //            dataOutputStream.writeInt(decision);
-
+            System.out.println("Pobieram pliki od klienta");
             int fileNameSize = dataInputStream.readInt();
             if(fileNameSize > 0 ){
+                System.out.println("Przekazywanie nazwy pliku");
                 // odbieram nazwę pliku
                 byte[] fileNameByte = new byte[fileNameSize];
                 dataInputStream.readFully(fileNameByte, 0, fileNameSize);
-                String fileName = new String(fileNameByte, "UTf-8");
-
+                String fileName = new String(fileNameByte, 0, fileNameSize, "UTf-8");
+                System.out.println("Przekazywany plik " +fileName);
                 long fileContentSize = dataInputStream.readLong();
                 if( fileContentSize > 0){
                     byte[] fileContentBytes = new byte[(int) fileContentSize];
@@ -135,11 +138,12 @@ public class FileServer {
                     fileOut.write(fileContentBytes);
                     fileOut.flush();
                     fileOut.close();
+                    System.out.println("Zakończyłem pobierać plik");
                 }
             }else{
-                System.out.println("Serwer nie przkazał pliku");
+                System.out.println("klient nie przkazał pliku");
             }
-
+        System.out.println("Koniec pobierania pliku");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {

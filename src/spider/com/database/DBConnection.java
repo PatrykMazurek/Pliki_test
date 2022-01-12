@@ -60,13 +60,33 @@ public class DBConnection {
     public void CreateTable( Connection conn){
         try {
             PreparedStatement statement = conn.prepareStatement("CREATE TABLE IF NOT EXISTS PERSON " +
-                    "(Id INTEGER," +
+                    "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "Name TEXT," +
                     "LastName TEXT," +
                     "Age INTEGER) ");
             if(statement.execute()){
                 System.out.println("Utworzono bazę danych ");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Savepoint setPoint(Connection con){
+        try {
+            Savepoint point = con.setSavepoint();
+            con.setAutoCommit(false);
+            System.out.println("Wykonano punkt przywracania");
+            return point;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void getPoint(Connection conn, Savepoint point){
+        try {
+            conn.rollback(point);
         } catch (SQLException e) {
             e.printStackTrace();
         }
